@@ -21,14 +21,12 @@ Y = OneHotEncoder().fit_transform(y).todense()
 # 3.切分数据集train_test_split
 from sklearn.model_selection import train_test_split
 X_train,X_test,y_train,y_test = train_test_split(X,Y,test_size=0.2,random_state=0,stratify=Y)
-print(X_train,X_test,y_train,y_test)
-print("X_data.shape:",X_data.shape)
-
-# ----
 
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense,Dropout,Conv2D,MaxPool2D,Flatten
-
+# ------
+import numpy as np
+import matplotlib.image as mpimg # mpimg 用于读取图片
 def create_model():
     # 4.建立模型
     model = Sequential()
@@ -65,15 +63,7 @@ def create_model():
     return model
 
 model = create_model()
-train_history = model.fit(x=X_train, y=y_train, validation_split=0.2, batch_size=300, epochs=10, verbose=2)
-#-- 评价
-
-import pandas as pd
-
-# 5.model.evaluate()
-score = model.evaluate(X_test, y_test)
-print('score：', score)
-# 预测值
-y_pred = model.predict(X_test)
-# 对应0-9的概率（测试前十个数据）
-print('y_pred：', y_pred[:10])
+model.load_weights('model_weights.h5')
+image = mpimg.imread('16.jpg') 
+# 此时 image 就已经是一个 np.array 了，可以对它进行任意处理
+model.predict(image)
