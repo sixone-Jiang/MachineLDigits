@@ -17,4 +17,3 @@ for image, label in zip(digits.images, digits.target):
 with open("yanzheng.txt", "w", encoding='utf-8') as f:
     f.write(s)
     f.close()
-
